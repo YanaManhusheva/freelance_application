@@ -24,10 +24,6 @@ export const getSingleProject = async (req, res) => {
 
 export const updateProject = async (req, res) => {
   const { id } = req.params;
-  // const { tasks } = req.body;
-
-  // if (tasks && tasks.length > 0) {
-  // }
 
   const updatedProject = await Project.findByIdAndUpdate(id, req.body, {
     new: true,
