@@ -1,9 +1,14 @@
 //why? because layer is reusable,easier to catch errors before the request even get to the controller. чим більше коду в контролері тим складніше його maintain
 import { body, param, validationResult } from "express-validator";
 import mongoose from "mongoose";
-import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../errors/customErrors.js";
 import { STATUS } from "../utils/constants.js";
 import Project from "../models/ProjectModel.js";
+import User from "../models/UserModel.js";
 
 const withValidationErrors = (validateValues) => {
   return [
@@ -14,6 +19,9 @@ const withValidationErrors = (validateValues) => {
         const errorMessages = errors.array().map((error) => error.msg);
         if (errorMessages[0].startsWith("no project")) {
           throw new NotFoundError(errorMessages);
+        }
+        if (errorMessages[0].startsWith("not authorized")) {
+          throw new UnauthorizedError(errorMessages);
         }
         throw new BadRequestError(errorMessages);
       }
@@ -41,13 +49,16 @@ export const validateTaskInput = withValidationErrors([
 ]);
 
 export const validateIdParam = withValidationErrors([
-  param("id").custom(async (value) => {
+  param("id").custom(async (value, { req }) => {
     const isValidId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidId) throw new BadRequestError("invalid mongodb id");
     const project = await Project.findById(value);
     if (!project) {
       throw new NotFoundError(`no project found with id ${value}`);
     }
+    const isOwner = req.user.userId === project.createdBy.toString();
+    if (!isOwner)
+      throw new UnauthorizedError("not authorized to access this route");
   }),
 ]);
 
@@ -82,4 +93,48 @@ export const validateProjectTaskParam = withValidationErrors([
       throw new NotFoundError(`no task found with id ${value}`);
     }
   }),
+]);
+
+//user
+export const validateRegisterInput = withValidationErrors([
+  body("name").notEmpty().withMessage("name is required"),
+  body("lastName").notEmpty().withMessage("last name is required"),
+  body("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("invalid email format")
+    .custom(async (email) => {
+      const user = await User.findOne({ email });
+      if (user) throw new BadRequestError("email already exist");
+    }),
+  body("password")
+    .notEmpty()
+    .withMessage("password is required")
+    .isLength({ min: 8 })
+    .withMessage("password must be at least 8 characters long"),
+]);
+
+export const validateLoginInput = withValidationErrors([
+  body("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("invalid email format"),
+  body("password").notEmpty().withMessage("password is required"),
+]);
+
+export const validateUpdateUserInput = withValidationErrors([
+  body("name").notEmpty().withMessage("name is required"),
+  body("lastName").notEmpty().withMessage("last name is required"),
+  body("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("invalid email format")
+    .custom(async (email, { req }) => {
+      const user = await User.findOne({ email });
+      if (user && user._id.toString() !== req.user.userId)
+        throw new BadRequestError("email already exist");
+    }),
 ]);

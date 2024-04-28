@@ -5,27 +5,35 @@ import express from "express";
 const app = express();
 import morgan from "morgan"; //status code in console
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 
 //routers
 import projectRouter from "./routes/projectRouter.js";
 import authRouter from "./routes/authRouter.js";
+import userRouter from "./routes/userRouter.js";
 //
 
 //middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
+import { authenticateUser } from "./middleware/authMiddleware.js";
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+app.use(cookieParser());
 app.use(express.json());
 
 app.post("/", (req, res) => {
   res.json({ message: "data received", data: req.body });
   console.log(req.body);
 });
+app.get("/api/test", (req, res) => {
+  res.json({ msg: "test route" });
+});
 
-app.use("/api/projects", projectRouter);
+app.use("/api/projects", authenticateUser, projectRouter); //protect all project routes
+app.use("/api/users", authenticateUser, userRouter); //protect all user routes
 app.use("/api/auth", authRouter);
 
 app.use("*", (req, res) => {

@@ -2,11 +2,12 @@ import Project from "../models/ProjectModel.js";
 import { StatusCodes } from "http-status-codes";
 
 export const getAllProjects = async (req, res) => {
-  const projects = await Project.find({});
+  const projects = await Project.find({ createdBy: req.user.userId });
   res.status(StatusCodes.OK).json({ projects: projects });
 };
 
 export const createProject = async (req, res) => {
+  req.body.createdBy = req.user.userId;
   const project = await Project.create(req.body);
   res.status(StatusCodes.CREATED).json({ project });
 };

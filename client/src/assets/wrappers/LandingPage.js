@@ -15,6 +15,9 @@ const Wrapper = styled.section`
     align-items: center;
     margin-top: -3rem;
   }
+  .logo {
+    width: 50px;
+  }
   h1 {
     font-weight: 700;
     span {

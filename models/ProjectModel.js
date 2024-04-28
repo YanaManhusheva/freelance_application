@@ -30,6 +30,10 @@ const ProjectSchema = new mongoose.Schema(
         deadline: Date,
       },
     ],
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
