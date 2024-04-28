@@ -18,10 +18,20 @@ import {
 } from "../controllers/taskController.js";
 
 import {
+  getAllPayslips,
+  getSinglePayslip,
+  createPayslip,
+  updatePayslip,
+  deletePayslip,
+} from "../controllers/payslipController.js";
+
+import {
   validateProjectInput,
   validateTaskInput,
+  validatePayslipInput,
   validateIdParam,
   validateProjectTaskParam,
+  validateProjectPayslipParam,
 } from "../middleware/validationMiddleware.js";
 //router.get("/", getAllProjects);
 
@@ -41,4 +51,15 @@ router
   .get(validateProjectTaskParam, getSingleTask)
   .patch(validateProjectTaskParam, validateTaskInput, updateTask)
   .delete(validateProjectTaskParam, deleteTask);
+//payslips
+router
+  .route("/:id/payslips")
+  .get(validateIdParam, getAllPayslips)
+  .post(validateIdParam, validatePayslipInput, createPayslip);
+
+router
+  .route("/:projectId/payslips/:payslipId")
+  .get(validateProjectPayslipParam, getSinglePayslip)
+  .patch(validateProjectPayslipParam, validatePayslipInput, updatePayslip)
+  .delete(validateProjectPayslipParam, deletePayslip);
 export default router;

@@ -14,7 +14,7 @@ export const getAllTasks = async (req, res) => {
   if (!tasks || tasks.length <= 0)
     throw new NotFoundError(`no tasks for these project`);
 
-  res.status(StatusCodes.OK).json({ tasks: tasks });
+  res.status(StatusCodes.OK).json({ tasks });
 };
 
 export const getSingleTask = async (req, res) => {
@@ -91,10 +91,11 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
   const { projectId, taskId } = req.params;
-  const project = await Project.findById(projectId);
-  if (!project) {
-    throw new NotFoundError(`no project found with id ${id}`);
-  }
+
+  // const project = await Project.findById(projectId);
+  // if (!project) {
+  //   throw new NotFoundError(`no project found with id ${id}`);
+  // }
   //   const taskIndex = project.tasks.findIndex(
   //     (task) => task._id.toString() === taskId
   //   );
@@ -108,9 +109,7 @@ export const deleteTask = async (req, res) => {
     },
     { new: true }
   );
-  if (!updatedProject) {
-    throw new NotFoundError(`no project found with id ${id}`);
-  }
+
   res
     .status(StatusCodes.OK)
     .json({ msg: "task deleted", project: updatedProject });

@@ -47,9 +47,14 @@ export const validateTaskInput = withValidationErrors([
     .isIn(Object.values(STATUS))
     .withMessage("invalid status value"),
 ]);
+export const validatePayslipInput = withValidationErrors([
+  body("date").notEmpty().withMessage("date is required"),
+  body("amount").notEmpty().withMessage("amount is required"),
+]);
 
 export const validateIdParam = withValidationErrors([
   param("id").custom(async (value, { req }) => {
+    console.log(value);
     const isValidId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidId) throw new BadRequestError("invalid mongodb id");
     const project = await Project.findById(value);
@@ -64,9 +69,7 @@ export const validateIdParam = withValidationErrors([
 
 export const validateProjectTaskParam = withValidationErrors([
   param("projectId").custom(async (value, { req }) => {
-    console.log(value);
     const isValidId = mongoose.Types.ObjectId.isValid(value);
-    console.log(value);
     if (!isValidId) throw new BadRequestError("invalid mongodb id");
     const project = await Project.findById(value);
     req.project = project;
@@ -91,6 +94,37 @@ export const validateProjectTaskParam = withValidationErrors([
     );
     if (taskIndex === -1) {
       throw new NotFoundError(`no task found with id ${value}`);
+    }
+  }),
+]);
+export const validateProjectPayslipParam = withValidationErrors([
+  param("projectId").custom(async (value, { req }) => {
+    const isValidId = mongoose.Types.ObjectId.isValid(value);
+    console.log(value);
+    if (!isValidId) throw new BadRequestError("invalid mongodb id");
+    const project = await Project.findById(value);
+    req.project = project;
+    if (!project) {
+      throw new NotFoundError(`no project found with id ${value}`);
+    }
+  }),
+  param("payslipId").custom(async (value, { req }) => {
+    const isValidId = mongoose.Types.ObjectId.isValid(value);
+    if (!isValidId) throw new BadRequestError("invalid mongodb id");
+    //validate payslip
+    const { project } = req;
+    if (!project) {
+      throw new NotFoundError(`no project found with id`);
+    }
+    const payslips = project.payslips;
+    if (!payslips || payslips.length <= 0) {
+      throw new NotFoundError(`no payslips for these project`);
+    }
+    const payslipsIndex = project.payslips.findIndex(
+      (payslip) => payslip._id.toString() === value
+    );
+    if (payslipsIndex === -1) {
+      throw new NotFoundError(`no payslip found with id ${value}`);
     }
   }),
 ]);
