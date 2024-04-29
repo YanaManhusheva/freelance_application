@@ -30,6 +30,10 @@ const ProjectSchema = new mongoose.Schema(
         deadline: Date,
       },
     ],
+    customer: {
+      type: mongoose.Types.ObjectId,
+      ref: "Customer",
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

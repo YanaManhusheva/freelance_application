@@ -12,7 +12,14 @@ import {
   Stats,
   AllProjects,
   AllCustomers,
+  AddProject,
 } from "./pages";
+
+import { action as registerAction } from "./pages/Register";
+import { action as loginAction } from "./pages/Login";
+import { loader as dashboardLoader } from "./pages/DashboardLayout";
+import { action as addProjectAction } from "./pages/AddProject";
+import { loader as allProjectsLoader } from "./pages/AllProjects";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("dark-theme") === "true";
@@ -35,26 +42,35 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+        action: registerAction,
       },
       {
         path: "login",
         element: <Login />,
+        action: loginAction,
       },
       {
         path: "dashboard",
         element: <DashboardLayout />,
+        loader: dashboardLoader,
         children: [
           {
             index: true,
             element: <AllProjects />,
+            loader: allProjectsLoader,
           },
           {
-            path: "stats",
-            element: <Stats />,
+            path: "add-project",
+            element: <AddProject />,
+            action: addProjectAction,
           },
           {
             path: "all-customers",
             element: <AllCustomers />,
+          },
+          {
+            path: "stats",
+            element: <Stats />,
           },
           {
             path: "profile",

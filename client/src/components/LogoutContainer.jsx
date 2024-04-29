@@ -6,7 +6,7 @@ import Wrapper from "../assets/wrappers/LogoutContainer";
 import { useDashboardContext } from "../pages/DashboardLayout";
 
 const LogoutContainer = () => {
-  const { user, logout } = useDashboardContext();
+  const { user, logoutUser } = useDashboardContext();
   const [showLogout, setShowLogout] = useState();
   return (
     <Wrapper>
@@ -20,7 +20,7 @@ const LogoutContainer = () => {
         <MdOutlineArrowDropDown />
       </button>
       <div className={showLogout ? "dropdown show-dropdown" : "dropdown"}>
-        <button type="button" className="dropdown-btn" onClick={logout}>
+        <button type="button" className="dropdown-btn" onClick={logoutUser}>
           logout
         </button>
       </div>

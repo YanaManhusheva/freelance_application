@@ -23,7 +23,7 @@ export const getStats = async (req, res) => {
     projectStatus: STATUS.TODO,
   }).countDocuments();
 
-  const inpProgressProjects = await Project.find({
+  const inProgressProjects = await Project.find({
     createdBy: req.user.userId,
     projectStatus: STATUS.IN_PROGRESS,
   }).countDocuments();
@@ -33,7 +33,7 @@ export const getStats = async (req, res) => {
     myProjects,
     doneProjects,
     toDoProjects,
-    inpProgressProjects,
+    inProgressProjects,
   });
 };
 export const updateUser = async (req, res) => {
