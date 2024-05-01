@@ -8,6 +8,7 @@ import {
 } from "../errors/customErrors.js";
 import { STATUS } from "../utils/constants.js";
 import Project from "../models/ProjectModel.js";
+import Customer from "../models/CustomerModel.js";
 import User from "../models/UserModel.js";
 
 const withValidationErrors = (validateValues) => {
@@ -38,7 +39,22 @@ export const validateProjectInput = withValidationErrors([
   body("projectStatus")
     .isIn(Object.values(STATUS))
     .withMessage("invalid status value"),
+  //customer
+  // body("customerName").notEmpty().withMessage("customer name is required"),
+  // body("customerLastName")
+  //   .notEmpty()
+  //   .withMessage("customer last name is required"),
+  // body("customerNote").notEmpty().withMessage("customer note is required"),
 ]);
+export const validateCustomerInput = withValidationErrors([
+  //customer
+  body("customerName").notEmpty().withMessage("customer name is required"),
+  body("customerLastName")
+    .notEmpty()
+    .withMessage("customer last name is required"),
+  body("customerNote").notEmpty().withMessage("customer note is required"),
+]);
+
 export const validateTaskInput = withValidationErrors([
   body("title").notEmpty().withMessage("title is required"),
   body("description").notEmpty().withMessage("description is required"),
@@ -60,6 +76,10 @@ export const validateIdParam = withValidationErrors([
     const project = await Project.findById(value);
     if (!project) {
       throw new NotFoundError(`no project found with id ${value}`);
+    }
+    const customer = await Customer.find({ _id: project.customer });
+    if (!customer) {
+      throw new NotFoundError(`no customer found for project with id ${value}`);
     }
     const isOwner = req.user.userId === project.createdBy.toString();
     if (!isOwner)

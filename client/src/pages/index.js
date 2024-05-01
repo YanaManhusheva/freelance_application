@@ -9,3 +9,7 @@ export { default as AllProjects } from "./AllProjects";
 export { default as Profile } from "./Profile";
 export { default as Stats } from "./Stats";
 export { default as AddProject } from "./AddProject";
+export { default as EditProject } from "./EditProject";
+export { default as ProjectDetails } from "./ProjectDetails";
+export { default as AddPayslip } from "./AddPayslip";
+export { default as EditPayslip } from "./EditPayslip";

@@ -20,9 +20,17 @@ const Wrapper = styled.section`
   .form-row {
     margin-bottom: 0;
   }
+
   .form-center {
     display: grid;
     row-gap: 1rem;
+  }
+  .customer-title {
+    margin-top: 2rem;
+  }
+
+  #new-customer-check {
+    margin-right: 0.5rem;
   }
   .form-btn {
     align-self: end;
@@ -36,10 +44,21 @@ const Wrapper = styled.section`
       align-items: center;
       column-gap: 1rem;
     }
+    .customers-select,
+    .form-check {
+      grid-column: span 2;
+    }
   }
   @media (min-width: 1120px) {
     .form-center {
       grid-template-columns: 1fr 1fr 1fr;
+    }
+    .customer-form {
+      grid-template-columns: 1fr 1fr;
+    }
+    .customers-select,
+    .form-check {
+      grid-column: span 2;
     }
   }
 `;

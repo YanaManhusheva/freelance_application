@@ -1,6 +1,5 @@
 import React from "react";
 import { FaBookOpen, FaBtc, FaCoins, FaCalendarAlt } from "react-icons/fa";
-import { RiMoneyEuroBoxFill } from "react-icons/ri";
 
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
@@ -16,9 +15,10 @@ const Project = ({
   projectStatus,
   sphere,
   budget,
+  _id,
 }) => {
+  console.log(_id);
   const date = day(deadline).format("MMM Do, YYYY");
-  console.log(projectStatus);
   const statusClass = projectStatus.split(" ").join("");
   console.log(statusClass);
   return (
@@ -38,9 +38,14 @@ const Project = ({
           <div className={`status ${statusClass}`}>{projectStatus}</div>
         </div>
         <footer className="actions">
-          <Link className="btn edit-btn">Edit</Link>
-          <Form method="post">
-            <button type="submit" className="btn delete-btn">
+          <Link to={`edit-project/${_id}`} className="btn edit-btn">
+            Edit
+          </Link>
+          <Link to={`project-details/${_id}`} className="btn details-btn ">
+            see details
+          </Link>
+          <Form method="post" action={`delete-project/${_id}`}>
+            <button type="submit" className="btn delete-btn danger-btn">
               Delete
             </button>
           </Form>

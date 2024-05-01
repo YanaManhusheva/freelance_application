@@ -33,9 +33,14 @@ import {
   validateProjectTaskParam,
   validateProjectPayslipParam,
 } from "../middleware/validationMiddleware.js";
+
+import { getAllCustomers } from "../controllers/customerController.js";
 //router.get("/", getAllProjects);
 
 router.route("/").get(getAllProjects).post(validateProjectInput, createProject);
+//customers
+router.route("/customers").get(getAllCustomers);
+
 router
   .route("/:id")
   .get(validateIdParam, getSingleProject)
@@ -62,4 +67,5 @@ router
   .get(validateProjectPayslipParam, getSinglePayslip)
   .patch(validateProjectPayslipParam, validatePayslipInput, updatePayslip)
   .delete(validateProjectPayslipParam, deletePayslip);
+
 export default router;

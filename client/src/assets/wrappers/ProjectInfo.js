@@ -16,5 +16,8 @@ const Wrapper = styled.div`
     text-transform: capitalize;
     letter-spacing: var(--letter-spacing);
   }
+  .header-text {
+    font-weight: 500;
+  }
 `;
 export default Wrapper;

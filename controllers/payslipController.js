@@ -27,6 +27,7 @@ export const getSinglePayslip = async (req, res) => {
 };
 
 export const createPayslip = async (req, res) => {
+  console.log(req.body);
   const { id } = req.params;
   const updatedProject = await Project.findByIdAndUpdate(
     id,
