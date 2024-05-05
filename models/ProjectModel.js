@@ -27,6 +27,7 @@ const ProjectSchema = new mongoose.Schema(
           enum: Object.values(STATUS),
           default: STATUS.TODO,
         },
+        estimatedTime: Number,
         deadline: Date,
       },
     ],

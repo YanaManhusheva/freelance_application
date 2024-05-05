@@ -13,6 +13,7 @@ import day from "dayjs";
 import Wrapper from "../assets/wrappers/ProjectDetails";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import PayslipsContainer from "../components/PayslipsContainer";
+import TasksContainer from "../components/TasksContainer";
 day.extend(advancedFormat);
 
 export const loader = async ({ params }) => {
@@ -37,6 +38,7 @@ const ProjectDetails = () => {
     budget,
     _id,
     payslips,
+    tasks,
   } = project;
   const date = day(deadline).format("MMM Do, YYYY");
   const statusClass = projectStatus.split(" ").join("");
@@ -47,7 +49,7 @@ const ProjectDetails = () => {
   );
 
   const payedPercentage = (totalAmountPayed / budget) * 100;
-  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <div className="details-section">
@@ -62,73 +64,28 @@ const ProjectDetails = () => {
           <div className="header">Status</div>
           <div className="header">Customer</div>
           <div className="header">Sphere</div>
+          <div className="header">Deadline</div>
           <div className="header">Budget</div>
           <div className="header">Pay Status</div>
+          <div className="header">Current tasks </div>
 
           <div className={`data status ${statusClass}`}>{projectStatus}</div>
           <div className="data">
             {customer.name} {customer.lastName}
           </div>
           <div className="data">{sphere}</div>
+          <div className="data">{date}</div>
           <div className="data">${budget}</div>
           <div className="data">
             {payedPercentage > 100 ? `100%` : `${payedPercentage.toFixed(2)}%`}
           </div>
+          <div className="data">{tasks.length}</div>
         </div>
       </div>
       <PayslipsContainer payslips={payslips} project={project} />
+      <TasksContainer tasks={tasks} project={project} />
     </Wrapper>
   );
-
-  //   return (
-  //     <Wrapper>
-  //       <header>
-  //         <div className="main-icon">{title.charAt(0)}</div>
-  //         <div className="info">
-  //           <h5>{title}</h5>
-  //           <p>{description}</p>
-  //         </div>
-  //       </header>
-  //       <div className="content">
-  //         <div className="content-center">
-  //           <ProjectInfo icon={<FaBookOpen />} text="Title" header />
-  //           <div className="details-info">{title}</div>
-  //           <ProjectInfo icon={<FaBookOpen />} text="Description" header />
-  //           <div className="details-info">{description}</div>
-  //           <ProjectInfo icon={<FaBookOpen />} text="Sphere" header />
-  //           <div className="details-info">{sphere}</div>
-  //           <ProjectInfo icon={<FaCoins />} text="Budget" header />
-  //           <div className="details-info">{`${budget}$`}</div>
-  //           <ProjectInfo icon={<FaBtc />} text="Payed" header />
-  //           <div className="details-info">
-  //             {payedPercentage > 100 ? `100%` : `${payedPercentage}%`}
-  //           </div>
-  //           <ProjectInfo icon={<FaCalendarAlt />} text="Deadline" header />
-  //           <div className="details-info">{date}</div>
-
-  //           <ProjectInfo icon={<FaCalendarAlt />} text="Customer" header />
-  //           <div className="details-info">
-  //             {customer.name + " " + customer.lastName}
-  //           </div>
-  //           <ProjectInfo icon={<FaCalendarAlt />} text="Status" header />
-  //           <div className={`status ${statusClass}`}>{projectStatus}</div>
-  //         </div>
-  //         {/* <footer className="actions">
-  //           <Link to={`edit-project/${_id}`} className="btn edit-btn">
-  //             Edit
-  //           </Link>
-  //           <Link to={`project-details/${_id}`} className="btn details-btn ">
-  //             see details
-  //           </Link>
-  //           <Form method="post" action={`delete-project/${_id}`}>
-  //             <button type="submit" className="btn delete-btn danger-btn">
-  //               Delete
-  //             </button>
-  //           </Form>
-  //         </footer> */}
-  //       </div>
-  //     </Wrapper>
-  //   );
 };
 
 export default ProjectDetails;

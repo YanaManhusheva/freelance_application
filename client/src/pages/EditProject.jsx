@@ -3,7 +3,7 @@ import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import { Form, redirect, useLoaderData, useNavigation } from "react-router-dom";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
-import { FormRow, FormRowSelect } from "../components";
+import { FormRow, FormRowSelect, SubmitBtn } from "../components";
 import { STATUS } from "../../../utils/constants";
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
@@ -36,8 +36,6 @@ export const action = async ({ request, params }) => {
 
 const EditProject = () => {
   const { project, customer } = useLoaderData();
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
 
   const date = day(project.deadline).format("YYYY-MM-DD");
 
@@ -85,13 +83,7 @@ const EditProject = () => {
             defaultValue={customer.note}
           />
 
-          <button
-            type="submit"
-            className="btn btn-block form-btn"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "submitting..." : "submit"}
-          </button>
+          <SubmitBtn formBtn />
         </div>
       </Form>
     </Wrapper>

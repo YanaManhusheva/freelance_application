@@ -7,6 +7,7 @@ import {
   createProject,
   updateProject,
   deleteProject,
+  showStats,
 } from "../controllers/projectController.js";
 
 import {
@@ -32,20 +33,37 @@ import {
   validateIdParam,
   validateProjectTaskParam,
   validateProjectPayslipParam,
+  validateCustomerInput,
+  validateCustomerParam,
 } from "../middleware/validationMiddleware.js";
 
-import { getAllCustomers } from "../controllers/customerController.js";
+import {
+  deleteCustomer,
+  getAllCustomers,
+  getSingleCustomers,
+  updateCustomer,
+} from "../controllers/customerController.js";
 //router.get("/", getAllProjects);
 
 router.route("/").get(getAllProjects).post(validateProjectInput, createProject);
-//customers
 router.route("/customers").get(getAllCustomers);
+
+router.route("/stats").get(showStats);
 
 router
   .route("/:id")
   .get(validateIdParam, getSingleProject)
   .patch(validateIdParam, validateProjectInput, updateProject)
   .delete(validateIdParam, deleteProject);
+
+//customers
+
+router
+  .route("/customers/:customerId")
+  .get(validateCustomerParam, getSingleCustomers)
+  .patch(validateCustomerParam, validateCustomerInput, updateCustomer)
+  .delete(validateCustomerParam, deleteCustomer);
+
 //tasks route
 router
   .route("/:id/tasks")

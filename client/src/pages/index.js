@@ -13,3 +13,7 @@ export { default as EditProject } from "./EditProject";
 export { default as ProjectDetails } from "./ProjectDetails";
 export { default as AddPayslip } from "./AddPayslip";
 export { default as EditPayslip } from "./EditPayslip";
+export { default as AllTasks } from "./AllTasks";
+export { default as AddTask } from "./AddTask";
+export { default as EditTask } from "./EditTask";
+export { default as EditCustomer } from "./EditCustomer";

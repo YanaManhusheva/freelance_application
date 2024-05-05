@@ -48,11 +48,9 @@ export const validateProjectInput = withValidationErrors([
 ]);
 export const validateCustomerInput = withValidationErrors([
   //customer
-  body("customerName").notEmpty().withMessage("customer name is required"),
-  body("customerLastName")
-    .notEmpty()
-    .withMessage("customer last name is required"),
-  body("customerNote").notEmpty().withMessage("customer note is required"),
+  body("name").notEmpty().withMessage("customer name is required"),
+  body("lastName").notEmpty().withMessage("customer last name is required"),
+  body("note").notEmpty().withMessage("customer note is required"),
 ]);
 
 export const validateTaskInput = withValidationErrors([
@@ -84,6 +82,17 @@ export const validateIdParam = withValidationErrors([
     const isOwner = req.user.userId === project.createdBy.toString();
     if (!isOwner)
       throw new UnauthorizedError("not authorized to access this route");
+  }),
+]);
+
+export const validateCustomerParam = withValidationErrors([
+  param("customerId").custom(async (value, { req }) => {
+    const isValidId = mongoose.Types.ObjectId.isValid(value);
+    if (!isValidId) throw new BadRequestError("invalid mongodb id");
+    const customer = await Customer.findById(value);
+    if (!customer) {
+      throw new NotFoundError(`no customer found with id ${value}`);
+    }
   }),
 ]);
 

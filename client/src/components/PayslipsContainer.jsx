@@ -12,7 +12,7 @@ const PayslipsContainer = ({ project, payslips }) => {
           type="button"
           className="btn add-btn"
         >
-          create new one
+          create payslip
         </Link>
       </div>
       <div className="payslips">

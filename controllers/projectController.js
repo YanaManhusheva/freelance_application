@@ -1,6 +1,10 @@
 import Customer from "../models/CustomerModel.js";
 import Project from "../models/ProjectModel.js";
 import { StatusCodes } from "http-status-codes";
+import { BadRequestError } from "../errors/customErrors.js";
+import mongoose from "mongoose";
+import day from "dayjs";
+import dayjs from "dayjs";
 
 export const getAllProjects = async (req, res) => {
   const projects = await Project.find({ createdBy: req.user.userId });
@@ -22,6 +26,9 @@ export const createProject = async (req, res) => {
     customer = await Customer.create(newCustomerData);
   } else {
     customer = await Customer.findById(req.body.customerId);
+  }
+  if (!req.body.customerName && !req.body.customerId) {
+    throw new BadRequestError(`Customer must be provided`);
   }
   console.log(customer);
 
@@ -92,4 +99,54 @@ export const deleteProject = async (req, res) => {
   res
     .status(StatusCodes.OK)
     .json({ msg: "project deleted", project: removedProject });
+};
+
+export const showStats = async (req, res) => {
+  let stats = await Project.aggregate([
+    { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
+    { $group: { _id: "$projectStatus", count: { $sum: 1 } } },
+  ]);
+  stats = stats.reduce((acc, curr) => {
+    const { _id: title, count } = curr;
+    acc[title] = count;
+    return acc;
+  }, {});
+
+  console.log(stats);
+  const defaultStats = {
+    todo: stats["to do"] || 0,
+    inProgress: stats["in progress"] || 0,
+    done: stats.done || 0,
+  };
+
+  let monthlyIncome = await Project.aggregate([
+    { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
+    { $unwind: "$payslips" },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$payslips.date" },
+          month: { $month: "$payslips.date" },
+        },
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { "_id.year": -1, "_id.month": -1 } },
+    { $limit: 6 },
+  ]);
+
+  monthlyIncome = monthlyIncome
+    .map((item) => {
+      const {
+        _id: { year, month },
+        count,
+      } = item;
+      const date = day()
+        .month(month - 1)
+        .year(year)
+        .format("MMM YY");
+      return { date, count };
+    })
+    .reverse();
+  res.status(StatusCodes.OK).json({ defaultStats, monthlyIncome });
 };

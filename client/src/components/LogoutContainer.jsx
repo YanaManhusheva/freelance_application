@@ -15,7 +15,12 @@ const LogoutContainer = () => {
         className="btn logout-btn"
         onClick={() => setShowLogout(!showLogout)}
       >
-        <CgProfile />
+        {user.avatar ? (
+          <img src={user.avatar} alt="avatar" className="img" />
+        ) : (
+          <CgProfile />
+        )}
+
         {user?.name}
         <MdOutlineArrowDropDown />
       </button>

@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
   lastName: { type: String, default: "lastName" },
   email: String,
   password: String,
+  avatar: String,
 });
 
 UserSchema.methods.toJSON = function () {

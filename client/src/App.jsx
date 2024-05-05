@@ -17,6 +17,10 @@ import {
   ProjectDetails,
   AddPayslip,
   EditPayslip,
+  AllTasks,
+  AddTask,
+  EditTask,
+  EditCustomer,
 } from "./pages";
 
 import { action as registerAction } from "./pages/Register";
@@ -33,6 +37,16 @@ import { action as addPayslipAction } from "./pages/AddPayslip";
 import { action as deletePayslipAction } from "./pages/DeletePayslip";
 import { action as editPayslipAction } from "./pages/EditPayslip";
 import { loader as editPayslipLoader } from "./pages/EditPayslip";
+import { loader as allCustomersLoader } from "./pages/AllCustomers";
+import { action as addTaskAction } from "./pages/AddTask";
+import { action as editTaskAction } from "./pages/EditTask";
+import { loader as getTasksEditLoader } from "./pages/EditTask";
+import { loader as getAllTasks } from "./pages/AllTasks";
+import { action as deleteTaskAction } from "./pages/DeleteTask";
+import { action as updateProfileAction } from "./pages/Profile";
+import { loader as editCustomerLoader } from "./pages/EditCustomer";
+import { action as editCustomerAction } from "./pages/EditCustomer";
+import { action as deleteCustomerAction } from "./pages/DeleteCustomer";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("dark-theme") === "true";
@@ -81,6 +95,7 @@ const router = createBrowserRouter([
           {
             path: "all-customers",
             element: <AllCustomers />,
+            loader: allCustomersLoader,
           },
           {
             path: "stats",
@@ -89,6 +104,7 @@ const router = createBrowserRouter([
           {
             path: "profile",
             element: <Profile />,
+            action: updateProfileAction,
           },
           {
             path: "edit-project/:id",
@@ -106,6 +122,16 @@ const router = createBrowserRouter([
             action: deleteProjectAction,
           },
           {
+            path: "edit-customer/:customerId",
+            element: <EditCustomer />,
+            loader: editCustomerLoader,
+            action: editCustomerAction,
+          },
+          {
+            path: "delete-customer/:customerId",
+            action: deleteCustomerAction,
+          },
+          {
             path: ":id/payslips",
             element: <AddPayslip />,
             action: addPayslipAction,
@@ -119,6 +145,26 @@ const router = createBrowserRouter([
             element: <EditPayslip />,
             loader: editPayslipLoader,
             action: editPayslipAction,
+          },
+          {
+            path: ":id/tasks",
+            element: <AllTasks />,
+            loader: getAllTasks,
+          },
+          {
+            path: ":id/add-task",
+            element: <AddTask />,
+            action: addTaskAction,
+          },
+          {
+            path: ":id/edit-task/:taskId",
+            element: <EditTask />,
+            loader: getTasksEditLoader,
+            action: editTaskAction,
+          },
+          {
+            path: ":id/delete-task/:taskId",
+            action: deleteTaskAction,
           },
         ],
       },
