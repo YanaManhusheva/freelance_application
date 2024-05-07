@@ -33,7 +33,7 @@ const Wrapper = styled.article`
     letter-spacing: var(--letter-spacing);
     text-align: center;
     width: 100px;
-    height: 30px;
+
     display: grid;
     align-items: center;
   }

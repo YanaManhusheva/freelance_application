@@ -68,7 +68,8 @@ const Wrapper = styled.div`
     text-transform: capitalize;
     letter-spacing: var(--letter-spacing);
     margin: 0 auto;
-    width: 50%;
+
+    width: 100%;
     display: grid;
     place-items: center;
   }

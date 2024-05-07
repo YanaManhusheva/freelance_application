@@ -27,7 +27,7 @@ export const getAllProjects = async (req, res) => {
     oldest: "createdAt",
     "a-z": "title",
     "z-a": "-title",
-    comingDeadline: "deadline",
+    "coming deadline": "deadline",
   };
   const sortKey = sortOptions[sort] || sortOptions.newest;
 

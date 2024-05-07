@@ -9,4 +9,5 @@ export const PROJECT_SORT_BY = {
   OLDEST_FIRST: "oldest",
   ASCENDING: "a-z",
   DESCENDING: "z-a",
+  DEADLINE: "coming deadline",
 };

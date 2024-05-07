@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import Payslip from "../components/Payslip";
 
 const PayslipsContainer = ({ project, payslips }) => {
+  payslips.sort((a, b) => {
+    return new Date(b.date) - new Date(a.date); // Descending order
+  });
   return (
     <div className="payslips-section">
       <div className="section-header">
