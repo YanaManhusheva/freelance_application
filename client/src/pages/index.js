@@ -17,3 +17,4 @@ export { default as AllTasks } from "./AllTasks";
 export { default as AddTask } from "./AddTask";
 export { default as EditTask } from "./EditTask";
 export { default as EditCustomer } from "./EditCustomer";
+export { default as CustomerDetailProjects } from "./CustomerDetailProjects";

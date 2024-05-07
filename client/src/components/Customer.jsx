@@ -30,7 +30,10 @@ const Customer = ({ name, lastName, note, projects, _id }) => {
           <Link to={`/dashboard/edit-customer/${_id}`} className="btn edit-btn">
             Edit
           </Link>
-          <Link to={`project-details/${_id}`} className="btn details-btn ">
+          <Link
+            to={`/dashboard/see-details/${_id}`}
+            className="btn details-btn "
+          >
             see details
           </Link>
           <Form method="post" action={`/dashboard/delete-customer/${_id}`}>

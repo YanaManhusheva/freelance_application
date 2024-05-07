@@ -21,6 +21,7 @@ import {
   AddTask,
   EditTask,
   EditCustomer,
+  CustomerDetailProjects,
 } from "./pages";
 
 import { action as registerAction } from "./pages/Register";
@@ -48,6 +49,7 @@ import { loader as editCustomerLoader } from "./pages/EditCustomer";
 import { action as editCustomerAction } from "./pages/EditCustomer";
 import { action as deleteCustomerAction } from "./pages/DeleteCustomer";
 import { loader as statsLoader } from "./pages/Stats";
+import { loader as customerDetailsLoader } from "./pages/CustomerDetailProjects";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("dark-theme") === "true";
@@ -132,6 +134,11 @@ const router = createBrowserRouter([
           {
             path: "delete-customer/:customerId",
             action: deleteCustomerAction,
+          },
+          {
+            path: "see-details/:customerId",
+            element: <CustomerDetailProjects />,
+            loader: customerDetailsLoader,
           },
           {
             path: ":id/payslips",

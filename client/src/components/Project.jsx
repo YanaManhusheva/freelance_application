@@ -37,13 +37,16 @@ const Project = ({
           <div className={`status ${statusClass}`}>{projectStatus}</div>
         </div>
         <footer className="actions">
-          <Link to={`edit-project/${_id}`} className="btn edit-btn">
+          <Link to={`/dashboard/edit-project/${_id}`} className="btn edit-btn">
             Edit
           </Link>
-          <Link to={`project-details/${_id}`} className="btn details-btn ">
+          <Link
+            to={`/dashboard/project-details/${_id}`}
+            className="btn details-btn "
+          >
             see details
           </Link>
-          <Form method="post" action={`delete-project/${_id}`}>
+          <Form method="post" action={`/dashboard/delete-project/${_id}`}>
             <button type="submit" className="btn delete-btn danger-btn">
               Delete
             </button>

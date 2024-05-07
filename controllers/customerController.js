@@ -15,6 +15,15 @@ export const getSingleCustomers = async (req, res) => {
   const customer = await Customer.findById(customerId);
   res.status(StatusCodes.OK).json({ customer });
 };
+export const getCustomerProjects = async (req, res) => {
+  const { customerId } = req.params;
+  const projects = await Project.find({
+    createdBy: req.user.userId,
+    customer: customerId,
+  });
+
+  res.status(StatusCodes.OK).json({ projects });
+};
 
 export const updateCustomer = async (req, res) => {
   const { customerId } = req.params;

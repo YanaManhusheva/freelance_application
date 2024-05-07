@@ -40,6 +40,7 @@ import {
 import {
   deleteCustomer,
   getAllCustomers,
+  getCustomerProjects,
   getSingleCustomers,
   updateCustomer,
 } from "../controllers/customerController.js";
@@ -63,6 +64,10 @@ router
   .get(validateCustomerParam, getSingleCustomers)
   .patch(validateCustomerParam, validateCustomerInput, updateCustomer)
   .delete(validateCustomerParam, deleteCustomer);
+
+router
+  .route("/customers/:customerId/details")
+  .get(validateCustomerParam, getCustomerProjects);
 
 //tasks route
 router
