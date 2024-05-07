@@ -37,7 +37,7 @@ import { action as addPayslipAction } from "./pages/AddPayslip";
 import { action as deletePayslipAction } from "./pages/DeletePayslip";
 import { action as editPayslipAction } from "./pages/EditPayslip";
 import { loader as editPayslipLoader } from "./pages/EditPayslip";
-import { loader as allCustomersLoader } from "./pages/AllCustomers";
+import { loader as allCustomersLoader, loader } from "./pages/AllCustomers";
 import { action as addTaskAction } from "./pages/AddTask";
 import { action as editTaskAction } from "./pages/EditTask";
 import { loader as getTasksEditLoader } from "./pages/EditTask";
@@ -47,6 +47,7 @@ import { action as updateProfileAction } from "./pages/Profile";
 import { loader as editCustomerLoader } from "./pages/EditCustomer";
 import { action as editCustomerAction } from "./pages/EditCustomer";
 import { action as deleteCustomerAction } from "./pages/DeleteCustomer";
+import { loader as statsLoader } from "./pages/Stats";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("dark-theme") === "true";
@@ -100,6 +101,7 @@ const router = createBrowserRouter([
           {
             path: "stats",
             element: <Stats />,
+            loader: statsLoader,
           },
           {
             path: "profile",

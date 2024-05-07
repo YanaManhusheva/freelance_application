@@ -5,7 +5,7 @@ import Wrapper from "../assets/wrappers/TaskContainer";
 
 const TasksContainer = ({ tasks, project, manage }) => {
   const navigate = useNavigate();
-  console.log(tasks);
+
   if (tasks.length === 0) {
     return (
       <div className="tasks-section">

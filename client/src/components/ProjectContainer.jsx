@@ -10,7 +10,6 @@ const ProjectContainer = () => {
   const { data } = useAllProjectsContext();
   const { projects } = data;
 
-  console.log(projects);
   const navigate = useNavigate();
   if (projects.length === 0) {
     return (

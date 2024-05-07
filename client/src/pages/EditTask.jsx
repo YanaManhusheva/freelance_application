@@ -15,7 +15,7 @@ export const loader = async ({ params }) => {
     const { data } = await customFetch.get(
       `/projects/${params.id}/tasks/${params.taskId}`
     );
-    console.log(data);
+
     return data;
   } catch (error) {
     toast.error(error?.response?.data?.message);

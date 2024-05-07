@@ -17,10 +17,9 @@ const Project = ({
   budget,
   _id,
 }) => {
-  console.log(_id);
   const date = day(deadline).format("MMM Do, YYYY");
   const statusClass = projectStatus.split(" ").join("");
-  console.log(statusClass);
+
   return (
     <Wrapper>
       <header>

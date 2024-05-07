@@ -10,10 +10,9 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 day.extend(advancedFormat);
 
 export const action = async ({ request, params }) => {
-  console.log(params);
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  console.log(data);
+
   try {
     await customFetch.post(`projects/${params.id}/tasks`, data);
     toast.success("Task added successfully");

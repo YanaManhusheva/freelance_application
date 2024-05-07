@@ -6,6 +6,7 @@ const FormRowSelect = ({
   list,
   defaultValue = "",
   customers,
+  onChange,
 }) => {
   let options = list.map((item) => {
     return (
@@ -34,6 +35,7 @@ const FormRowSelect = ({
         id={name}
         className="form-select"
         defaultValue={defaultValue}
+        onChange={onChange}
       >
         {options}
       </select>

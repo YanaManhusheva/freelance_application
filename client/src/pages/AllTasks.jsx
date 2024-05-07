@@ -8,7 +8,7 @@ import TasksContainer from "../components/TasksContainer";
 export const loader = async ({ params }) => {
   try {
     const { data } = await customFetch.get(`/projects/${params.id}`);
-    console.log(data);
+
     return data;
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -21,7 +21,6 @@ const AllTasksContext = createContext();
 const AllTasks = () => {
   const { project } = useLoaderData();
   const { tasks } = project;
-  console.log(tasks, project);
 
   return (
     <AllTasksContext.Provider value={{ tasks, project }}>

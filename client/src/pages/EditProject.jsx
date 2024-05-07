@@ -12,7 +12,7 @@ day.extend(advancedFormat);
 export const loader = async ({ params }) => {
   try {
     const { data } = await customFetch.get(`/projects/${params.id}`);
-    console.log(data);
+
     return data;
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -39,8 +39,6 @@ const EditProject = () => {
 
   const date = day(project.deadline).format("YYYY-MM-DD");
 
-  console.log(project);
-  console.log(customer);
   return (
     <Wrapper>
       <Form method="post" className="form">

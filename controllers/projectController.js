@@ -4,11 +4,49 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../errors/customErrors.js";
 import mongoose from "mongoose";
 import day from "dayjs";
-import dayjs from "dayjs";
 
 export const getAllProjects = async (req, res) => {
-  const projects = await Project.find({ createdBy: req.user.userId });
-  res.status(StatusCodes.OK).json({ projects: projects });
+  const { search, projectStatus, sort } = req.query;
+
+  const queryObject = {
+    createdBy: req.user.userId,
+  };
+  if (search) {
+    queryObject.$or = [
+      { title: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  if (projectStatus && projectStatus !== "all") {
+    queryObject.projectStatus = projectStatus;
+  }
+
+  const sortOptions = {
+    newest: "-createdAt", //descending
+    oldest: "createdAt",
+    "a-z": "title",
+    "z-a": "-title",
+    comingDeadline: "deadline",
+  };
+  const sortKey = sortOptions[sort] || sortOptions.newest;
+
+  //pagination
+
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  const projects = await Project.find(queryObject)
+    .sort(sortKey)
+    .skip(skip)
+    .limit(limit);
+
+  const totalProjects = await Project.countDocuments(queryObject);
+  const numOfPages = Math.ceil(totalProjects / limit);
+  res
+    .status(StatusCodes.OK)
+    .json({ totalProjects, numOfPages, currentPage: page, projects: projects });
 };
 
 export const createProject = async (req, res) => {
@@ -129,6 +167,7 @@ export const showStats = async (req, res) => {
           month: { $month: "$payslips.date" },
         },
         count: { $sum: 1 },
+        totalAmount: { $sum: "$payslips.amount" },
       },
     },
     { $sort: { "_id.year": -1, "_id.month": -1 } },
@@ -139,14 +178,16 @@ export const showStats = async (req, res) => {
     .map((item) => {
       const {
         _id: { year, month },
-        count,
+        totalAmount,
+        //count,
       } = item;
       const date = day()
         .month(month - 1)
         .year(year)
         .format("MMM YY");
-      return { date, count };
+      return { date, totalAmount };
     })
     .reverse();
+  console.log(monthlyIncome);
   res.status(StatusCodes.OK).json({ defaultStats, monthlyIncome });
 };

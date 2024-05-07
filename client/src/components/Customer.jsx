@@ -10,7 +10,6 @@ import ProjectInfo from "./ProjectInfo";
 day.extend(advancedFormat);
 
 const Customer = ({ name, lastName, note, projects, _id }) => {
-  console.log(_id);
   //const date = day(deadline).format("MMM Do, YYYY");
 
   return (

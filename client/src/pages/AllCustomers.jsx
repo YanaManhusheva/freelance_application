@@ -7,7 +7,7 @@ import { CustomerContainer, SearchContainer } from "../components";
 export const loader = async () => {
   try {
     const { data } = await customFetch.get("/projects/customers");
-    console.log(data);
+
     return { data };
   } catch (error) {
     toast.error(error?.response?.data?.msg);
@@ -19,7 +19,6 @@ const AllCustomersContext = createContext();
 
 const AllCustomers = () => {
   const { data } = useLoaderData();
-  console.log(data);
 
   return (
     <AllCustomersContext.Provider value={{ data }}>

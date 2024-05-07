@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  console.log(data);
+
   try {
     await customFetch.post("/projects", data);
     toast.success("Project added successfully");
@@ -29,7 +29,7 @@ export const action = async ({ request }) => {
 export const loader = async () => {
   try {
     const { data } = await customFetch.get(`/projects/customers`);
-    console.log(data);
+
     return data;
   } catch (error) {
     toast.error(error?.response?.data?.message);

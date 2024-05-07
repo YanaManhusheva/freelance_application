@@ -9,9 +9,7 @@ import Wrapper from "../assets/wrappers/ProjectsContainer";
 const CustomerContainer = () => {
   const { data } = useAllCustomersContext();
   const { customers } = data;
-  console.log(customers);
 
-  console.log(customers);
   const navigate = useNavigate();
   if (customers.length === 0) {
     return (

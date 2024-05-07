@@ -8,7 +8,7 @@ import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 
 const Task = ({ task, manage, projectId }) => {
   const { title, description, deadline, taskStatus, estimatedTime, _id } = task;
-  console.log(task);
+
   const date = day(deadline).format("MMM Do, YYYY");
   const statusClass = taskStatus.split(" ").join("");
   if (manage) {

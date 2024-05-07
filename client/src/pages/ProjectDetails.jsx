@@ -19,7 +19,7 @@ day.extend(advancedFormat);
 export const loader = async ({ params }) => {
   try {
     const { data } = await customFetch.get(`/projects/${params.id}`);
-    console.log(data);
+
     return data;
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -42,7 +42,7 @@ const ProjectDetails = () => {
   } = project;
   const date = day(deadline).format("MMM Do, YYYY");
   const statusClass = projectStatus.split(" ").join("");
-  console.log(payslips);
+
   const totalAmountPayed = payslips.reduce(
     (acc, payslip) => acc + payslip.amount,
     0
