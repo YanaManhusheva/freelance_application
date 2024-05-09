@@ -64,7 +64,7 @@ const AllTasks = () => {
           }}
         />
       </Form>
-      <TasksContainer manage tasks={tasks} project={project} />
+      <TasksContainer manage tasks={tasks} project={project.project} />
     </AllTasksContext.Provider>
   );
 };

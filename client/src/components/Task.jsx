@@ -10,11 +10,11 @@ import stringToColor from "../utils/stringToColor";
 const Task = ({ task, manage, projectId }) => {
   const { title, description, deadline, taskStatus, estimatedTime, tag, _id } =
     task;
-  console.log(tag);
+
   const date = day(deadline).format("MMM Do, YYYY");
   const statusClass = taskStatus.split(" ").join("");
   const groupColor = stringToColor(tag);
-  console.log(groupColor);
+
   if (manage) {
     //manage all tasks
     return (

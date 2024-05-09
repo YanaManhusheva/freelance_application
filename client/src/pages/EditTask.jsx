@@ -24,6 +24,7 @@ day.extend(advancedFormat);
 // };
 
 export const loader = async ({ params }) => {
+  console.log(params);
   try {
     const [taskData, tagsData] = await Promise.all([
       customFetch.get(`/projects/${params.id}/tasks/${params.taskId}`),
