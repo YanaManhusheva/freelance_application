@@ -1,28 +1,36 @@
 import Project from "../models/ProjectModel.js";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/customErrors.js";
+import mongoose from "mongoose";
 
 export class TaskController {
   async getAllTasks(req, res) {
     const { id } = req.params;
-    const { tag } = req.query;
+    const { sort } = req.query;
+    console.log(sort);
 
     const project = await Project.findById(id);
     const tasks = project.tasks;
+
     if (!tasks || tasks.length <= 0)
       throw new NotFoundError(`no tasks for these project`);
 
     let filteredTasks = project.tasks;
-    console.log(filteredTasks);
-    if (tag) {
-      filteredTasks = filteredTasks.filter((task) => task.tag === tag);
-    }
 
-    if (!filteredTasks.length) {
-      return res
-        .status(StatusCodes.OK)
-        .json({ message: "No tasks found that match the criteria." });
+    const sortOptions = {
+      newest: (a, b) => new Date(b.createdAt) - new Date(a.createdAt), // descending
+      oldest: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      "a-z": (a, b) => a.title.localeCompare(b.title),
+      "z-a": (a, b) => b.title.localeCompare(a.title),
+      "coming deadline": (a, b) => new Date(a.deadline) - new Date(b.deadline),
+      hardest: (a, b) => b.estimatedTime - a.estimatedTime, //most hours
+      easiest: (a, b) => a.estimatedTime - b.estimatedTime,
+    };
+    if (sort && sortOptions[sort]) {
+      filteredTasks.sort(sortOptions[sort]);
     }
+    console.log(sortOptions);
+    console.log(filteredTasks);
 
     res.status(StatusCodes.OK).json({ tasks: filteredTasks });
   }

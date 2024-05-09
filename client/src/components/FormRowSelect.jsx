@@ -9,7 +9,6 @@ const FormRowSelect = ({
   onChange,
   uniqueTags,
 }) => {
-  console.log(list);
   let options = list.map((item) => {
     return (
       <option key={item} value={item}>

@@ -11,3 +11,12 @@ export const PROJECT_SORT_BY = {
   DESCENDING: "z-a",
   DEADLINE: "coming deadline",
 };
+export const TASK_SORT_BY = {
+  NEWEST_FIRST: "newest",
+  OLDEST_FIRST: "oldest",
+  ASCENDING: "a-z",
+  DESCENDING: "z-a",
+  DEADLINE: "coming deadline",
+  HARDEST: "hardest",
+  EASIEST: "easiest",
+};
