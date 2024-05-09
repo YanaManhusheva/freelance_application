@@ -13,6 +13,7 @@ export class TaskController {
       throw new NotFoundError(`no tasks for these project`);
 
     let filteredTasks = project.tasks;
+    console.log(filteredTasks);
     if (tag) {
       filteredTasks = filteredTasks.filter((task) => task.tag === tag);
     }
