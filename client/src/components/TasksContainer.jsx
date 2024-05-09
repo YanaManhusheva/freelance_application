@@ -4,10 +4,10 @@ import Task from "../components/Task";
 import Wrapper from "../assets/wrappers/TaskContainer";
 import { useAllTasksContext } from "../pages/AllTasks";
 
-const TasksContainer = ({ manage }) => {
+const TasksContainer = ({ manage, tasks, project }) => {
   const data = useAllTasksContext();
   console.log(data);
-  const { tasks, project } = data;
+  // const { tasks, project } = data;
   const navigate = useNavigate();
 
   if (tasks.length === 0) {
