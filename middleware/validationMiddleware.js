@@ -60,6 +60,7 @@ export const validateTaskInput = withValidationErrors([
   body("taskStatus")
     .isIn(Object.values(STATUS))
     .withMessage("invalid status value"),
+  body("estimatedTime").notEmpty().withMessage("estimated Time is required"),
 ]);
 export const validatePayslipInput = withValidationErrors([
   body("date").notEmpty().withMessage("date is required"),

@@ -40,6 +40,7 @@ import { action as editPayslipAction } from "./pages/EditPayslip";
 import { loader as editPayslipLoader } from "./pages/EditPayslip";
 import { loader as allCustomersLoader, loader } from "./pages/AllCustomers";
 import { action as addTaskAction } from "./pages/AddTask";
+import { loader as getTasksLoader } from "./pages/AddTask";
 import { action as editTaskAction } from "./pages/EditTask";
 import { loader as getTasksEditLoader } from "./pages/EditTask";
 import { loader as getAllTasks } from "./pages/AllTasks";
@@ -164,6 +165,7 @@ const router = createBrowserRouter([
             path: ":id/add-task",
             element: <AddTask />,
             action: addTaskAction,
+            loader: getTasksLoader,
           },
           {
             path: ":id/edit-task/:taskId",

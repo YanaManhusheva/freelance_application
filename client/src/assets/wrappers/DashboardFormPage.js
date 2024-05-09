@@ -20,7 +20,9 @@ const Wrapper = styled.section`
   .form-row {
     margin-bottom: 0;
   }
-
+  .color-input {
+    width: 30%;
+  }
   .form-center {
     display: grid;
     row-gap: 1rem;
@@ -29,7 +31,8 @@ const Wrapper = styled.section`
     margin-top: 2rem;
   }
 
-  #new-customer-check {
+  #new-customer-check,
+  #new-tag-check {
     margin-right: 0.5rem;
   }
   .form-btn {
@@ -53,7 +56,8 @@ const Wrapper = styled.section`
     .form-center {
       grid-template-columns: 1fr 1fr 1fr;
     }
-    .customer-form {
+    .customer-form,
+    .tag-form {
       grid-template-columns: 1fr 1fr;
     }
     .customers-select,

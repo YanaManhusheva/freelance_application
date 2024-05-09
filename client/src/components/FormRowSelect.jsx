@@ -4,10 +4,12 @@ const FormRowSelect = ({
   name,
   labelText,
   list,
-  defaultValue = "",
+  defaultValue,
   customers,
   onChange,
+  uniqueTags,
 }) => {
+  console.log(list);
   let options = list.map((item) => {
     return (
       <option key={item} value={item}>
@@ -21,6 +23,16 @@ const FormRowSelect = ({
       return (
         <option key={customer._id} value={customer._id}>
           {customer.name + " " + customer.lastName}
+        </option>
+      );
+    });
+  }
+  if (uniqueTags) {
+    list = ["no tag", ...list];
+    options = list.map((tag) => {
+      return (
+        <option key={tag} value={tag}>
+          {tag}
         </option>
       );
     });

@@ -26,7 +26,7 @@ const Wrapper = styled.section`
   }
   .active {
     background: var(--border-radius);
-    color: var(--white);
+    color: var(--text-active);
   }
   .prev-btn,
   .next-btn {

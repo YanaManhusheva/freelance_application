@@ -2,8 +2,12 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Task from "../components/Task";
 import Wrapper from "../assets/wrappers/TaskContainer";
+import { useAllTasksContext } from "../pages/AllTasks";
 
-const TasksContainer = ({ tasks, project, manage }) => {
+const TasksContainer = ({ manage }) => {
+  const data = useAllTasksContext();
+  console.log(data);
+  const { tasks, project } = data;
   const navigate = useNavigate();
 
   if (tasks.length === 0) {
@@ -29,6 +33,7 @@ const TasksContainer = ({ tasks, project, manage }) => {
           <div className="section-header">
             <h4 className="section-text">All tasks </h4>
           </div>
+
           <div className="tasks">
             {tasks.map((task, index) => {
               return (

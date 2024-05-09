@@ -2,30 +2,63 @@ import React, { createContext, useContext } from "react";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import { useLoaderData } from "react-router-dom";
-import { ProjectContainer, SearchContainer } from "../components";
+import {
+  FormRowSelect,
+  ProjectContainer,
+  SearchContainer,
+} from "../components";
 import TasksContainer from "../components/TasksContainer";
 
 export const loader = async ({ params }) => {
+  console.log(params);
   try {
-    const { data } = await customFetch.get(`/projects/${params.id}`);
-
-    return data;
+    const [projectData, tagsData] = await Promise.all([
+      customFetch.get(`/projects/${params.id}`),
+      customFetch.get(`/projects/${params.id}/taskTags`),
+    ]);
+    return {
+      project: projectData.data,
+      uniqueTags: tagsData.data,
+    };
   } catch (error) {
     toast.error(error?.response?.data?.message);
-    return redirect("");
+    return redirect(`/dashboard/${params.id}/tasks`);
   }
+  // try {
+  //   const { data } = await customFetch.get(`/projects/${params.id}`);
+  //   console.log(data);
+  //   return data;
+  // } catch (error) {
+  //   toast.error(error?.response?.data?.message);
+  //   return redirect("");
+  // }
 };
 
 const AllTasksContext = createContext();
 
 const AllTasks = () => {
-  const { project } = useLoaderData();
-  const { tasks } = project;
-
+  const { project, uniqueTags } = useLoaderData();
+  const { tasks } = project.project;
+  console.log(tasks);
+  console.log(uniqueTags.uniqueTags);
+  const tagDefaultValue = "no tag";
   return (
     <AllTasksContext.Provider value={{ tasks, project }}>
       {/* <SearchContainer /> */}
-      <TasksContainer tasks={tasks} project={project} manage />
+      <Form className="form">
+        <h5 className="form-title">Tags form</h5>
+
+        <FormRowSelect
+          labelText="tag"
+          name="tag"
+          list={uniqueTags.uniqueTags}
+          defaultValue={tagDefaultValue}
+          // onChange={(e) => {
+          //   submit(e.currentTarget.form);
+          // }}
+        />
+      </Form>
+      <TasksContainer manage />
     </AllTasksContext.Provider>
   );
 };

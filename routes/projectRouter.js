@@ -1,30 +1,41 @@
 import { Router } from "express";
+import { CustomerController } from "../controllers/customerController.js";
+import { PayslipController } from "../controllers/payslipController.js";
+import { TaskController } from "../controllers/taskController.js";
+import { ProjectController } from "../controllers/projectController.js";
+import { StatsController } from "../controllers/statsController.js";
 const router = Router();
 
-import {
-  getAllProjects,
-  getSingleProject,
-  createProject,
-  updateProject,
-  deleteProject,
-  showStats,
-} from "../controllers/projectController.js";
+const customerController = new CustomerController();
+const payslipController = new PayslipController();
+const taskController = new TaskController();
+const projectController = new ProjectController();
+const statsController = new StatsController();
 
-import {
-  getAllTasks,
-  getSingleTask,
-  createTask,
-  updateTask,
-  deleteTask,
-} from "../controllers/taskController.js";
+// import {
+//   getAllProjects,
+//   getSingleProject,
+//   createProject,
+//   updateProject,
+//   deleteProject,
+//   showStats,
+// } from "../controllers/projectController.js";
 
-import {
-  getAllPayslips,
-  getSinglePayslip,
-  createPayslip,
-  updatePayslip,
-  deletePayslip,
-} from "../controllers/payslipController.js";
+// import {
+//   getAllTasks,
+//   getSingleTask,
+//   createTask,
+//   updateTask,
+//   deleteTask,
+// } from "../controllers/taskController.js";
+
+// import {
+//   getAllPayslips,
+//   getSinglePayslip,
+//   createPayslip,
+//   updatePayslip,
+//   deletePayslip,
+// } from "../controllers/payslipController.js";
 
 import {
   validateProjectInput,
@@ -37,58 +48,72 @@ import {
   validateCustomerParam,
 } from "../middleware/validationMiddleware.js";
 
-import {
-  deleteCustomer,
-  getAllCustomers,
-  getCustomerProjects,
-  getSingleCustomers,
-  updateCustomer,
-} from "../controllers/customerController.js";
+// import {
+//   deleteCustomer,
+//   getAllCustomers,
+//   getCustomerProjects,
+//   getSingleCustomers,
+//   updateCustomer,
+// } from "../controllers/customerController.js";
 //router.get("/", getAllProjects);
 
-router.route("/").get(getAllProjects).post(validateProjectInput, createProject);
-router.route("/customers").get(getAllCustomers);
+router
+  .route("/")
+  .get(projectController.getAllProjects)
+  .post(validateProjectInput, projectController.createProject);
+router.route("/customers").get(customerController.getAllCustomers);
 
-router.route("/stats").get(showStats);
+router.route("/stats").get(statsController.showStats);
 
 router
   .route("/:id")
-  .get(validateIdParam, getSingleProject)
-  .patch(validateIdParam, validateProjectInput, updateProject)
-  .delete(validateIdParam, deleteProject);
+  .get(validateIdParam, projectController.getSingleProject)
+  .patch(validateIdParam, validateProjectInput, projectController.updateProject)
+  .delete(validateIdParam, projectController.deleteProject);
 
 //customers
 
 router
   .route("/customers/:customerId")
-  .get(validateCustomerParam, getSingleCustomers)
-  .patch(validateCustomerParam, validateCustomerInput, updateCustomer)
-  .delete(validateCustomerParam, deleteCustomer);
+  .get(validateCustomerParam, customerController.getSingleCustomers)
+  .patch(
+    validateCustomerParam,
+    validateCustomerInput,
+    customerController.updateCustomer
+  )
+  .delete(validateCustomerParam, customerController.deleteCustomer);
 
 router
   .route("/customers/:customerId/details")
-  .get(validateCustomerParam, getCustomerProjects);
+  .get(validateCustomerParam, customerController.getCustomerProjects);
 
 //tasks route
 router
   .route("/:id/tasks")
-  .get(validateIdParam, getAllTasks)
-  .post(validateIdParam, validateTaskInput, createTask);
+  .get(validateIdParam, taskController.getAllTasks)
+  .post(validateIdParam, validateTaskInput, taskController.createTask);
+router
+  .route("/:id/taskTags")
+  .get(validateIdParam, taskController.getAllTasksTags);
 router
   .route("/:projectId/tasks/:taskId")
-  .get(validateProjectTaskParam, getSingleTask)
-  .patch(validateProjectTaskParam, validateTaskInput, updateTask)
-  .delete(validateProjectTaskParam, deleteTask);
+  .get(validateProjectTaskParam, taskController.getSingleTask)
+  .patch(validateProjectTaskParam, validateTaskInput, taskController.updateTask)
+  .delete(validateProjectTaskParam, taskController.deleteTask);
 //payslips
 router
   .route("/:id/payslips")
-  .get(validateIdParam, getAllPayslips)
-  .post(validateIdParam, validatePayslipInput, createPayslip);
+  .get(validateIdParam, payslipController.getAllPayslips)
+  .post(validateIdParam, validatePayslipInput, payslipController.createPayslip);
 
 router
   .route("/:projectId/payslips/:payslipId")
-  .get(validateProjectPayslipParam, getSinglePayslip)
-  .patch(validateProjectPayslipParam, validatePayslipInput, updatePayslip)
-  .delete(validateProjectPayslipParam, deletePayslip);
+  .get(validateProjectPayslipParam, payslipController.getSinglePayslip)
+  .patch(
+    validateProjectPayslipParam,
+    validatePayslipInput,
+    payslipController.updatePayslip
+  )
+  .delete(validateProjectPayslipParam, payslipController.deletePayslip);
 
 export default router;

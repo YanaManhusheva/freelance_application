@@ -29,6 +29,7 @@ const ProjectSchema = new mongoose.Schema(
         },
         estimatedTime: Number,
         deadline: Date,
+        tag: String,
       },
     ],
     customer: {

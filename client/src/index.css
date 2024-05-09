@@ -55,6 +55,7 @@ html {
   --red-dark: #842029;
   --green-light: #d1e7dd;
   --green-dark: #0f5132;
+  --text-active: var(--black);
 
   --form-input-color-border: var(--primary-500);
   --h4-text-color: var(--primary-500);
@@ -100,6 +101,7 @@ html {
   --background-secondary-color: var(--dark-mode-bg-secondary-color);
   --form-input-color-border: var(--primary-100);
   --h4-text-color: var(--primary-100);
+  --text-active: var(--white);
 }
 
 body {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import { Form, redirect, useLoaderData, useNavigation } from "react-router-dom";
@@ -23,7 +23,23 @@ export const action = async ({ request, params }) => {
   }
 };
 
+export const loader = async ({ params }) => {
+  console.log(params.id);
+  try {
+    const { data } = await customFetch.get(`/projects/${params.id}/taskTags`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    return redirect("/dashboard");
+  }
+};
+
 const AddTask = () => {
+  const { uniqueTags } = useLoaderData();
+  const [createNewTag, setCreateNewTag] = useState(false);
+
+  console.log(uniqueTags);
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -44,7 +60,30 @@ const AddTask = () => {
             list={Object.values(STATUS)}
           />
         </div>
-
+        <h4 className="customer-title form-title">add tag</h4>
+        <div className="form-center tag-form">
+          {uniqueTags && Object.values(uniqueTags).length > 0 && (
+            <FormRowSelect
+              name="tag"
+              uniqueTags
+              list={uniqueTags}
+              labelText="Existing tags"
+            />
+          )}
+          <div className="form-check">
+            <input
+              type="checkbox"
+              id="new-tag-check"
+              checked={createNewTag}
+              onChange={(e) => setCreateNewTag(e.target.checked)}
+              className="form-check-input"
+            />
+            <label htmlFor="new-tag-check" className="form-check-label">
+              Create a new tag
+            </label>
+          </div>
+          {createNewTag && <FormRow type="text" name="tag" labelText="tag" />}
+        </div>
         <SubmitBtn formBtn />
       </Form>
     </Wrapper>

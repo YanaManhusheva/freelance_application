@@ -3,6 +3,8 @@ import styled from "styled-components";
 const Wrapper = styled.article`
   background: var(--background-secondary-color);
   border-radius: var(--border-radius);
+  border: 2px solid
+    ${({ color }) => color || "var(--background-secondary-color)"};
   display: grid;
   padding: 1rem 2.5rem;
   grid-template-columns: 0.5fr auto;
