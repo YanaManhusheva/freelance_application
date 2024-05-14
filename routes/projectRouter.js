@@ -12,31 +12,6 @@ const taskController = new TaskController();
 const projectController = new ProjectController();
 const statsController = new StatsController();
 
-// import {
-//   getAllProjects,
-//   getSingleProject,
-//   createProject,
-//   updateProject,
-//   deleteProject,
-//   showStats,
-// } from "../controllers/projectController.js";
-
-// import {
-//   getAllTasks,
-//   getSingleTask,
-//   createTask,
-//   updateTask,
-//   deleteTask,
-// } from "../controllers/taskController.js";
-
-// import {
-//   getAllPayslips,
-//   getSinglePayslip,
-//   createPayslip,
-//   updatePayslip,
-//   deletePayslip,
-// } from "../controllers/payslipController.js";
-
 import {
   validateProjectInput,
   validateTaskInput,
@@ -47,15 +22,6 @@ import {
   validateCustomerInput,
   validateCustomerParam,
 } from "../middleware/validationMiddleware.js";
-
-// import {
-//   deleteCustomer,
-//   getAllCustomers,
-//   getCustomerProjects,
-//   getSingleCustomers,
-//   updateCustomer,
-// } from "../controllers/customerController.js";
-//router.get("/", getAllProjects);
 
 router
   .route("/")

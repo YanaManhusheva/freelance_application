@@ -70,22 +70,8 @@ const AllTasks = () => {
     <AllTasksContext.Provider
       value={{ tasks, project, searchValues, uniqueTags }}
     >
-      {/* <SearchContainer /> */}
       <SearchTasksContainer />
-      {/* <Form className="form">
-        <h5 className="form-title">Tags form</h5>
-        <div className="form-center">
-          <FormRowSelect
-            labelText="tag"
-            name="tag"
-            list={uniqueTags.uniqueTags}
-            defaultValue={tagDefaultValue}
-            onChange={(e) => {
-              submit(e.currentTarget.form);
-            }}
-          />
-        </div>
-      </Form> */}
+
       <TasksContainer manage tasks={tasks} project={project.project} />
     </AllTasksContext.Provider>
   );

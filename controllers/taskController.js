@@ -1,6 +1,7 @@
 import Project from "../models/ProjectModel.js";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/customErrors.js";
+import AntColonyOptimization from "../utils/AntsAlgorithm.js";
 import mongoose from "mongoose";
 
 export class TaskController {
@@ -26,9 +27,25 @@ export class TaskController {
       hardest: (a, b) => b.estimatedTime - a.estimatedTime, //most hours
       easiest: (a, b) => a.estimatedTime - b.estimatedTime,
     };
-    if (sort && sortOptions[sort]) {
+    if (sort === "smart sorting") {
+      filteredTasks = project.tasks.filter(
+        (task) => task.taskStatus !== "done"
+      );
+      console.log(filteredTasks);
+      const aco = new AntColonyOptimization(
+        filteredTasks,
+        filteredTasks.length,
+        10
+      );
+      const optimizedIndices = aco.run(); // This should return an array of indices
+      console.log(optimizedIndices.distance);
+      filteredTasks = optimizedIndices.route.map(
+        (index) => filteredTasks[index]
+      );
+    } else if (sort && sortOptions[sort]) {
       filteredTasks.sort(sortOptions[sort]);
     }
+
     console.log(sortOptions);
     console.log(filteredTasks);
 
@@ -86,30 +103,18 @@ export class TaskController {
       },
       { new: true }
     );
-    //   if (!updatedProject) {
-    //     throw new NotFoundError(`no project found with id ${id}`);
-    //   }
+
     res.status(StatusCodes.CREATED).json({ updatedProject });
   }
 
   async updateTask(req, res) {
     const { projectId, taskId } = req.params;
     const project = await Project.findById(projectId);
-    //   if (!project) {
-    //     throw new NotFoundError(`no project found with id ${id}`);
-    //   }
-
-    // const tasks = project.tasks;
-    // if (!tasks || tasks.length <= 0) {
-    //   throw new NotFoundError(`no tasks for these project`);
-    // }
 
     const taskIndex = project.tasks.findIndex(
       (task) => task._id.toString() === taskId
     );
-    //   if (taskId === -1) {
-    //     throw new NotFoundError(`no task found with id ${taskId}`);
-    //   }
+
     console.log(req.body);
     console.log(req.body.tag);
     const updateOptions = {};
@@ -137,16 +142,6 @@ export class TaskController {
   async deleteTask(req, res) {
     const { projectId, taskId } = req.params;
 
-    // const project = await Project.findById(projectId);
-    // if (!project) {
-    //   throw new NotFoundError(`no project found with id ${id}`);
-    // }
-    //   const taskIndex = project.tasks.findIndex(
-    //     (task) => task._id.toString() === taskId
-    //   );
-    //   if (taskId === -1) {
-    //     throw new NotFoundError(`no task found with id ${taskId}`);
-    //   }
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
       {

@@ -19,4 +19,5 @@ export const TASK_SORT_BY = {
   DEADLINE: "coming deadline",
   HARDEST: "hardest",
   EASIEST: "easiest",
+  SMART: "smart sorting",
 };

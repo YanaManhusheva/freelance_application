@@ -69,7 +69,7 @@ const Wrapper = styled.div`
     letter-spacing: var(--letter-spacing);
     margin: 0 auto;
 
-    width: 100%;
+    /* width: 100%; */
     display: grid;
     place-items: center;
   }

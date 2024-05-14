@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const CustomerSchema = new mongoose.Schema({
   name: String,
-  lastName: { type: String, default: "lastName" },
+  lastName: String,
   note: String,
   projects: [{ type: mongoose.Types.ObjectId, ref: "Project" }],
 });

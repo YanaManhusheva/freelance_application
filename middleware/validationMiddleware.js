@@ -1,5 +1,7 @@
 //why? because layer is reusable,easier to catch errors before the request even get to the controller. чим більше коду в контролері тим складніше його maintain
 import { body, param, validationResult } from "express-validator";
+import dayjs from "dayjs";
+
 import mongoose from "mongoose";
 import {
   BadRequestError,
@@ -33,7 +35,31 @@ const withValidationErrors = (validateValues) => {
 export const validateProjectInput = withValidationErrors([
   body("title").notEmpty().withMessage("title is required"),
   body("description").notEmpty().withMessage("description is required"),
-  body("deadline").notEmpty().withMessage("deadline is required"),
+  body("deadline")
+    .notEmpty()
+    .withMessage("deadline is required")
+    .custom((value) => {
+      // Regular expression to check if the format is YYYY-MM-DD
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        throw new Error("Deadline must be a valid date in YYYY-MM-DD format");
+      }
+
+      const date = new Date(value);
+      const now = new Date();
+      now.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate comparison
+
+      // Check if the date object represents a valid date
+      if (isNaN(date.getTime())) {
+        throw new Error("Invalid date");
+      }
+
+      // Check if the date is in the future
+      if (date <= now) {
+        throw new Error("Deadline must be a future date");
+      }
+
+      return true;
+    }),
   body("budget").notEmpty().withMessage("budget is required"),
   body("sphere").notEmpty().withMessage("sphere is required"),
   body("projectStatus")
@@ -56,14 +82,55 @@ export const validateCustomerInput = withValidationErrors([
 export const validateTaskInput = withValidationErrors([
   body("title").notEmpty().withMessage("title is required"),
   body("description").notEmpty().withMessage("description is required"),
-  body("deadline").notEmpty().withMessage("deadline is required"),
+  body("deadline")
+    .notEmpty()
+    .withMessage("deadline is required")
+    .custom((value) => {
+      // Regular expression to check if the format is YYYY-MM-DD
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        throw new Error("Deadline must be a valid date in YYYY-MM-DD format");
+      }
+
+      const date = new Date(value);
+      const now = new Date();
+      now.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate comparison
+
+      // Check if the date object represents a valid date
+      if (isNaN(date.getTime())) {
+        throw new Error("Invalid date");
+      }
+
+      // Check if the date is in the future
+      if (date <= now) {
+        throw new Error("Deadline must be a future date");
+      }
+
+      return true;
+    }),
   body("taskStatus")
     .isIn(Object.values(STATUS))
     .withMessage("invalid status value"),
   body("estimatedTime").notEmpty().withMessage("estimated Time is required"),
 ]);
 export const validatePayslipInput = withValidationErrors([
-  body("date").notEmpty().withMessage("date is required"),
+  body("date")
+    .notEmpty()
+    .withMessage("date is required")
+    .custom((value) => {
+      // Regular expression to check if the format is YYYY-MM-DD
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        throw new Error("Deadline must be a valid date in YYYY-MM-DD format");
+      }
+
+      const date = new Date(value);
+
+      // Check if the date object represents a valid date
+      if (isNaN(date.getTime())) {
+        throw new Error("Invalid date");
+      }
+
+      return true;
+    }),
   body("amount").notEmpty().withMessage("amount is required"),
 ]);
 

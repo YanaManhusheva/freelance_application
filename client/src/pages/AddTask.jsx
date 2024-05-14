@@ -16,9 +16,11 @@ export const action = async ({ request, params }) => {
   try {
     await customFetch.post(`projects/${params.id}/tasks`, data);
     toast.success("Task added successfully");
+
     return redirect(`../project-details/${params.id}`);
   } catch (error) {
-    toast.error(error?.response?.data?.message);
+    toast.error(error?.response?.data?.msg);
+    console.log(error);
     return error;
   }
 };
@@ -31,6 +33,7 @@ export const loader = async ({ params }) => {
     return data;
   } catch (error) {
     toast.error(error?.response?.data?.message);
+
     return redirect("/dashboard");
   }
 };
