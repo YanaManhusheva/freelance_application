@@ -17,7 +17,7 @@ export const action = async ({ request, params }) => {
     toast.success("Payslip added successfully");
     return redirect(`../project-details/${params.id}`);
   } catch (error) {
-    toast.error(error?.response?.data?.message);
+    toast.error(error?.response?.data?.msg);
     return error;
   }
 };

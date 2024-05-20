@@ -85,24 +85,32 @@ export const validateTaskInput = withValidationErrors([
   body("deadline")
     .notEmpty()
     .withMessage("deadline is required")
-    .custom((value) => {
+    .custom((value, { req }) => {
       // Regular expression to check if the format is YYYY-MM-DD
       if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
         throw new Error("Deadline must be a valid date in YYYY-MM-DD format");
       }
 
-      const date = new Date(value);
+      const taskDeadline = new Date(value);
       const now = new Date();
       now.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate comparison
 
       // Check if the date object represents a valid date
-      if (isNaN(date.getTime())) {
+      if (isNaN(taskDeadline.getTime())) {
         throw new Error("Invalid date");
       }
 
       // Check if the date is in the future
-      if (date <= now) {
+      if (taskDeadline <= now) {
         throw new Error("Deadline must be a future date");
+      }
+
+      const projectDeadline = new Date(req.project.deadline);
+
+      if (taskDeadline > projectDeadline) {
+        throw new Error(
+          "Task deadline must not be bigger than project deadline"
+        );
       }
 
       return true;
@@ -133,15 +141,32 @@ export const validatePayslipInput = withValidationErrors([
       }
 
       const date = new Date(value);
+      const now = new Date();
+      now.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate comparison
 
       // Check if the date object represents a valid date
       if (isNaN(date.getTime())) {
         throw new Error("Invalid date");
       }
 
+      // Check if the date is in th past or today
+      if (date > now) {
+        throw new Error("Date must be past date or today");
+      }
+
       return true;
     }),
-  body("amount").notEmpty().withMessage("amount is required"),
+  body("amount")
+    .notEmpty()
+    .withMessage("Amount is required")
+    .isNumeric()
+    .withMessage("Amount must be a number")
+    .custom((value) => {
+      if (value <= 0) {
+        throw new Error("Amount must be greater than zero.");
+      }
+      return true;
+    }),
 ]);
 
 export const validateIdParam = withValidationErrors([
@@ -150,6 +175,7 @@ export const validateIdParam = withValidationErrors([
     const isValidId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidId) throw new BadRequestError("invalid mongodb id");
     const project = await Project.findById(value);
+    req.project = project;
     if (!project) {
       throw new NotFoundError(`no project found with id ${value}`);
     }
