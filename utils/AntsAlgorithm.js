@@ -72,7 +72,11 @@ class AntColonyOptimization {
         (best, path) => (path.distance < best.distance ? path : best),
         { route: [], distance: Infinity }
       );
-      //console.log(`Iteration ${iteration + 1}: Best path distance = ${bestThisIteration.distance}`);
+      // console.log(
+      //   `Iteration ${iteration + 1}: Best path distance = ${
+      //     bestThisIteration.distance
+      //   }`
+      // );
 
       if (bestThisIteration.distance < shortestPath.distance) {
         shortestPath = bestThisIteration;
@@ -86,7 +90,7 @@ class AntColonyOptimization {
     let paths = [];
 
     for (let i = 0; i < this.antCount; i++) {
-      let start = Math.floor(Math.random() * this.distances.length);
+      let start = Math.floor(Math.random() * this.distances.length); //random start for task path
       let path = this.genPath(start);
       paths.push({
         route: path,

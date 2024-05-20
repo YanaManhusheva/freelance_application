@@ -30,8 +30,8 @@ const ProjectSchema = new mongoose.Schema(
         estimatedTime: Number,
         deadline: Date,
         tag: String,
+        createdAt: { type: Date, default: Date.now },
       },
-      { timestamps: true },
     ],
     customer: {
       type: mongoose.Types.ObjectId,

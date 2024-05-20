@@ -30,9 +30,8 @@ const AddPayslip = () => {
         <div className="form-center">
           <FormRow type="date" name="date" />
           <FormRow type="number" name="amount" />
+          <SubmitBtn formBtn />
         </div>
-
-        <SubmitBtn formBtn />
       </Form>
     </Wrapper>
   );

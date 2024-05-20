@@ -110,7 +110,17 @@ export const validateTaskInput = withValidationErrors([
   body("taskStatus")
     .isIn(Object.values(STATUS))
     .withMessage("invalid status value"),
-  body("estimatedTime").notEmpty().withMessage("estimated Time is required"),
+  body("estimatedTime")
+    .notEmpty()
+    .withMessage("estimated Time is required")
+    .isNumeric()
+    .withMessage("estimated Time must be a number")
+    .custom((value) => {
+      if (value < 0) {
+        throw new Error("Estimated Time cannot be negative ");
+      }
+      return true;
+    }),
 ]);
 export const validatePayslipInput = withValidationErrors([
   body("date")

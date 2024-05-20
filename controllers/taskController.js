@@ -8,7 +8,6 @@ export class TaskController {
   async getAllTasks(req, res) {
     const { id } = req.params;
     const { sort } = req.query;
-    console.log(sort);
 
     const project = await Project.findById(id);
     const tasks = project.tasks;
@@ -17,6 +16,7 @@ export class TaskController {
       throw new NotFoundError(`no tasks for these project`);
 
     let filteredTasks = project.tasks;
+    console.log("first", tasks[0]);
 
     const sortOptions = {
       newest: (a, b) => new Date(b.createdAt) - new Date(a.createdAt), // descending
@@ -31,6 +31,7 @@ export class TaskController {
       filteredTasks = project.tasks.filter(
         (task) => task.taskStatus !== "done"
       );
+      console.log("filter");
       console.log(filteredTasks);
       const aco = new AntColonyOptimization(
         filteredTasks,
@@ -38,6 +39,7 @@ export class TaskController {
         10
       );
       const optimizedIndices = aco.run(); // This should return an array of indices
+      console.log(optimizedIndices);
       console.log(optimizedIndices.distance);
       filteredTasks = optimizedIndices.route.map(
         (index) => filteredTasks[index]
@@ -45,9 +47,6 @@ export class TaskController {
     } else if (sort && sortOptions[sort]) {
       filteredTasks.sort(sortOptions[sort]);
     }
-
-    console.log(sortOptions);
-    console.log(filteredTasks);
 
     res.status(StatusCodes.OK).json({ tasks: filteredTasks });
   }
@@ -89,7 +88,6 @@ export class TaskController {
   async createTask(req, res) {
     const { id } = req.params;
     const taskData = { ...req.body };
-    console.log(taskData);
 
     if (!req.body.tag || req.body.tag === "no tag") {
       delete taskData.tag;
