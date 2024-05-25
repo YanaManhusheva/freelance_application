@@ -3,20 +3,18 @@ import styled from "styled-components";
 const Wrapper = styled.article`
   background: var(--background-secondary-color);
   border-radius: var(--border-radius);
-  border: 2px solid
+  border: 4px solid
     ${({ color }) => color || "var(--background-secondary-color)"};
   display: grid;
   padding: 1rem 2.5rem;
-  grid-template-columns: 0.5fr auto;
+  grid-template-columns: 0.5fr 1.5fr;
   box-shadow: var(--shadow-2);
   min-height: 20rem;
   align-items: center;
   .header {
     font-size: 0.9rem;
   }
-  .status {
-    margin: 0;
-  }
+
   .content-center {
     display: grid;
     margin-top: 1rem;
@@ -35,7 +33,7 @@ const Wrapper = styled.article`
     letter-spacing: var(--letter-spacing);
     text-align: center;
     width: 100px;
-
+    margin: 0;
     display: grid;
     align-items: center;
   }

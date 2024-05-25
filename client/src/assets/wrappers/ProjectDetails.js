@@ -67,7 +67,7 @@ const Wrapper = styled.div`
     border-radius: var(--border-radius);
     text-transform: capitalize;
     letter-spacing: var(--letter-spacing);
-    margin: 0 auto;
+    //margin: 0 auto;
 
     /* width: 100%; */
     display: grid;

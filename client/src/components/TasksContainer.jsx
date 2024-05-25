@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Task from "../components/Task";
 import Wrapper from "../assets/wrappers/TaskContainer";
-import { useAllTasksContext } from "../pages/AllTasks";
 
 const TasksContainer = ({ manage, tasks, project }) => {
   // const { tasks, project } = data;
@@ -29,7 +28,7 @@ const TasksContainer = ({ manage, tasks, project }) => {
       <Wrapper>
         <div className="tasks-section">
           <div className="section-header">
-            <h4 className="section-text">All tasks </h4>
+            <h4 className="section-text">All tasks ({tasks.length}) </h4>
           </div>
 
           <div className="tasks">
@@ -51,7 +50,7 @@ const TasksContainer = ({ manage, tasks, project }) => {
   return (
     <div className="tasks-section">
       <div className="section-header">
-        <h4 className="section-text">All tasks </h4>
+        <h4 className="section-text">All tasks ({tasks.length})</h4>
         <div className="actions">
           <Link
             to={`/dashboard/${project._id}/tasks`}

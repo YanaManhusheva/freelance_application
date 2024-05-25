@@ -28,27 +28,6 @@ export const loader = async ({ request }) => {
     toast.error(error?.response?.data?.message);
     return redirect(`/dashboard/${params.id}/tasks`);
   }
-
-  // try {
-  //   const [projectData, tagsData] = await Promise.all([
-  //     customFetch.get(`/projects/${params.id}`),
-  //     customFetch.get(`/projects/${params.id}/taskTags`),
-  //   ]);
-  //   return {
-  //     project: projectData.data,
-  //     uniqueTags: tagsData.data,
-  //   };
-  // } catch (error) {
-  //   toast.error(error?.response?.data?.message);
-  //   return redirect(`/dashboard/${params.id}/tasks`);
-  // }
-  // try {
-  //   const { data } = await customFetch.get(`/projects/${params.id}`);
-  //   return data;
-  // } catch (error) {
-  //   toast.error(error?.response?.data?.message);
-  //   return redirect("");
-  // }
 };
 
 const AllTasksContext = createContext();
