@@ -24,15 +24,21 @@ const Register = () => {
       <Form method="post" className="form">
         <Logo />
         <h4>Register</h4>
-        <FormRow type="text" name="name" defaultValue="Yana" />
+        <FormRow type="text" name="name" /* defaultValue="Yana" */ />
         <FormRow
           type="text"
           name="lastName"
           labelText="last name"
-          defaultValue="Manhusheva"
+          /* defaultValue="Manhusheva"*/
         />
-        <FormRow type="email" name="email" defaultValue="yana12@gmail.com" />
-        <FormRow type="password" name="password" defaultValue="secret123" />
+        <FormRow
+          type="email"
+          name="email" /*defaultValue="yana12@gmail.com"*/
+        />
+        <FormRow
+          type="password"
+          name="password" /* defaultValue="secret123"*/
+        />
         <div className="btn-container">
           <SubmitBtn />
         </div>

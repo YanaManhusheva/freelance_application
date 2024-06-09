@@ -26,8 +26,8 @@ const Login = () => {
       <Form method="post" className="form">
         <Logo />
         <h4>Login</h4>
-        <FormRow type="email" name="email" defaultValue="yana@gmail.com" />
-        <FormRow type="password" name="password" defaultValue="secret123" />
+        <FormRow type="email" name="email" /*defaultValue="yana@gmail.com"*/ />
+        <FormRow type="password" name="password" /*defaultValue="secret123"*/ />
         <div className="btn-container">
           <SubmitBtn />
         </div>
